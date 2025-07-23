@@ -1,4 +1,5 @@
 import { Canvas } from "./components/Canvas"
+import { EraserCanvas } from "./components/EraserCanvas"
 import { HandCanvas } from "./components/HandCanvas"
 
 function App() {
@@ -6,7 +7,8 @@ function App() {
     <div className="h-screen w-screen flex justify-center items-center">
       <div>
         {/* <Canvas /> */}
-        <HandCanvas />
+        {/* <HandCanvas /> */}
+        <EraserCanvas />
       </div>
     </div>
   )

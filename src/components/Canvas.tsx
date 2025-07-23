@@ -72,7 +72,7 @@ export function Canvas() {
             }
         })
 
-        canvas.addEventListener("mouseup", (e) => {
+        canvas.addEventListener("mouseup", () => {
             //what to do on mousedown:
             if(isDrawing) {
                 isDrawing = false;

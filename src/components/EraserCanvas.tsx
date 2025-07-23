@@ -49,9 +49,9 @@ export function EraserCanvas() {
         const localStorageShapes = localStorage.getItem("Shapes");
         if(localStorageShapes) {
             const parsedLocalStorageShapes = JSON.parse(localStorageShapes);
-            // console.log(parsedLocalStorageShapes.length)
+
             shapeStore.push(...parsedLocalStorageShapes)
-            // console.log("parsed: ",parsedLocalStorageShapes)
+
             draw_stored_shapes()
         }
 
@@ -79,25 +79,16 @@ export function EraserCanvas() {
         function isStrokeNearEraser(x:number, y:number, stroke:Stroke, radius:number) {
             const { startX, startY, endX, endY } = stroke;
 
-            //
-            const dx = endX - startX;
-            const dy = endY - startY;
+            //evaluate for each point -> stroke end and start
+            // {x,y} and {x1,y1}
+            const distStart = Math.sqrt((Math.abs(x-startX)**2)+(Math.abs(y-startY)**2))
+            const distEnd =  Math.sqrt((Math.abs(x-endX)**2)+(Math.abs(y-endY)**2))
 
-            // Avoid divide by zero
-            if (dx === 0 && dy === 0) {
-                const dist = Math.hypot(x - startX, y - startY);
-                return dist <= radius;
+            if(distStart<radius||distEnd<radius) {
+                return true;
             }
 
-            // Project point onto the line, then clamp to segment
-            const t = ((x - startX) * dx + (y - startY) * dy) / (dx * dx + dy * dy);
-            const clampedT = Math.max(0, Math.min(1, t)); // Clamp t to segment
-
-            const closestX = startX + clampedT * dx;
-            const closestY = startY + clampedT * dy;
-
-            const distance = Math.hypot(x - closestX, y - closestY);
-            return distance <= radius;
+            return false;
         }
 
         function checkLineNearToEraser(line: Line, eraserPoint: Point):boolean {
@@ -115,16 +106,14 @@ export function EraserCanvas() {
         canvas.addEventListener("mousedown", (e)=> {
             isErasing = true;
             const mousePos = getMousePos(e);
-            console.log("shape store has no of shapes: ",shapeStore.length);
+
             for(let i = 0; i<shapeStore.length;i++) {
-                console.log("checking")
+
                 const line = shapeStore[i];
                 const lineIsNearToEraser:boolean = checkLineNearToEraser(line, mousePos);
                 if(lineIsNearToEraser) {
-                    console.log("delete")
+
                     shapeStore.splice(i,1);
-                }else {
-                    console.log("dont delete")
                 }
             }
             ctx.clearRect(0,0,canvas.width, canvas.height)
@@ -134,16 +123,14 @@ export function EraserCanvas() {
         canvas.addEventListener("mousemove", (e) => {
             if(isErasing) {
                 const mousePos = getMousePos(e);
-                console.log("shape store has no of shapes: ",shapeStore.length);
+
                 for(let i = 0; i<shapeStore.length;i++) {
-                    console.log("checking")
+
                     const line = shapeStore[i];
                     const lineIsNearToEraser:boolean = checkLineNearToEraser(line, mousePos);
                     if(lineIsNearToEraser) {
-                        console.log("delete")
+
                         shapeStore.splice(i,1);
-                    }else {
-                        console.log("dont delete")
                     }
                 }
                 ctx.clearRect(0,0,canvas.width, canvas.height)
@@ -151,11 +138,11 @@ export function EraserCanvas() {
             }
         })
 
-        canvas.addEventListener("mouseup", (e) =>{
+        canvas.addEventListener("mouseup", () =>{
             isErasing = false;
         })
 
-        canvas.addEventListener("mouseleave", (e) =>{
+        canvas.addEventListener("mouseleave", () =>{
             isErasing = false;
         })
 

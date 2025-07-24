@@ -1,6 +1,7 @@
 import { Canvas } from "./components/Canvas"
 import { EraserCanvas } from "./components/EraserCanvas"
 import { HandCanvas } from "./components/HandCanvas"
+import { HandEraserCanvas } from "./components/HandEraserCanvas"
 
 function App() {
   return (
@@ -8,7 +9,8 @@ function App() {
       <div>
         {/* <Canvas /> */}
         {/* <HandCanvas /> */}
-        <EraserCanvas />
+        {/* <EraserCanvas /> */}
+        <HandEraserCanvas />
       </div>
     </div>
   )

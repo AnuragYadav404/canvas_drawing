@@ -81,6 +81,7 @@ export function EraserCanvas() {
 
             //evaluate for each point -> stroke end and start
             // {x,y} and {x1,y1}
+            // not the most optimal function, but works
             const distStart = Math.sqrt((Math.abs(x-startX)**2)+(Math.abs(y-startY)**2))
             const distEnd =  Math.sqrt((Math.abs(x-endX)**2)+(Math.abs(y-endY)**2))
 
